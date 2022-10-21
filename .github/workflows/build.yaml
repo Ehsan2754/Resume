@@ -1,0 +1,50 @@
+name: Build LaTeX document
+
+on:
+  push:
+  workflow_dispatch:
+    
+
+jobs:
+  build:
+    name: build LaTeX
+    runs-on: ubuntu-latest
+    env:
+      SRC_DIR: ./
+      SRC_FILE: resume.tex
+      TARGET: resume.pdf
+      VERSION: 0.2
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          working_directory: ${{ env.SRC_DIR }}
+          root_file: ${{ env.SRC_FILE }}
+      - name: Upload PDF as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.TARGET }}
+          path: ${{ env.SRC_DIR }}/${{ env.TARGET }}
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.VERSION }}-${{ github.run_number }}
+          release_name: Automated build v${{ env.VERSION }}-${{ github.run_number }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ${{ env.SRC_DIR }}/${{ env.TARGET }}
+          asset_name: ${{ env.TARGET }}
+          asset_content_type: application/pdf
