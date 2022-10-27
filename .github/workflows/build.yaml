@@ -13,7 +13,7 @@ jobs:
       SRC_DIR: ./
       SRC_FILE: resume.tex
       TARGET: resume.pdf
-      VERSION: 2022.10.
+      VERSION: 1.1
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
@@ -28,13 +28,18 @@ jobs:
         with:
           name: ${{ env.TARGET }}
           path: ${{ env.SRC_DIR }}/${{ env.TARGET }}
+
+      - name: Get DateTime
+        id: date
+        run: echo "NOW::$(date +'%Y-%m')" >> $GITHUB_ENV"
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ env.VERSION }}-${{ github.run_number }}
+          tag_name: ${{ steps.date.outputs.NOW }}v${{ env.VERSION }}-${{ github.run_number }}
           release_name: Resume build v${{ env.VERSION }}-${{ github.run_number }}
           draft: false
           prerelease: false
