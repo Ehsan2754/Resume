@@ -6,31 +6,22 @@ on:
       - main  
   workflow_dispatch:
     
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true  
-          fetch-depth: 0    
-          
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: '0.101.0'
+env:
+  SRC_DIR: ./
+  SRC_FILE: resume.tex
 
-      - name: Build
-        run: hugo --minify
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.ref == 'refs/heads/main' }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+jobs: 
+  build: 
+   runs-on: ubuntu-latest 
+   steps: 
+   - uses: actions/checkout@v1 
+   - name: Run make4ht 
+     uses: docker://ghcr.io/michal-h21/make4ht-action:latest 
+     env: 
+       command: "make4ht -u -d out ${{ env.SRC_FILE }}" 
+   - name: Publish the web pages 
+     uses:  peaceiris/actions-gh-pages@v3 
+     with: 
+       github_token: ${{ secrets.GITHUB_TOKEN }} 
+       publish_dir: ./out
   
