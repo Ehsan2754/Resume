@@ -13,7 +13,7 @@ jobs:
       SRC_DIR: ./
       SRC_FILE: resume.tex
       TARGET: resume.pdf
-      VERSION: 2022.10.
+      VERSION: 1.1
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ env.VERSION }}-${{ github.run_number }}
+          tag_name: ${{ date +'%Y-%m-%dT%H:%M:%S' }}v${{ env.VERSION }}-${{ github.run_number }}
           release_name: Resume build v${{ env.VERSION }}-${{ github.run_number }}
           draft: false
           prerelease: false
