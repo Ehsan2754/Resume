@@ -30,13 +30,6 @@ jobs:
           name: ${{ env.TARGET }}
           path: ${{ env.SRC_DIR }}/${{ env.TARGET }}
 
-
-  release:
-      name: release package 
-      runs-on: ubuntu-latest
-      needs: build
-      steps:
-      
       - name: Get DateTime
         id: date
         run: |
@@ -51,7 +44,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.date.outputs.NOW }}v${{ env.VERSION }}-${{ github.run_number }}
-          release_name: Resume build v${{ env.VERSION }}-${{ github.run_number }}
+          release_name: Resume${{ steps.date.outputs.NOW }}buildv${{ env.VERSION }}-${{ github.run_number }}
           draft: false
           prerelease: false
 
