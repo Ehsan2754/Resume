@@ -17,7 +17,8 @@ jobs:
     - name: Set up Git repository
       uses: actions/checkout@v2 
     - name: Install Pandoc and build HTML
-      run: sudo apt install pandoc | 
+      run: |
+        sudo apt install pandoc 
         sudo pandoc --toc resume.tex -s --mathjax -o resume.html
 
     - name: Publish the web pages 
