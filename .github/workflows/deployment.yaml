@@ -14,14 +14,15 @@ jobs:
   build: 
    runs-on: ubuntu-latest 
    steps: 
-   - uses: actions/checkout@v1 
-   - name: Run make4ht 
-     uses: docker://ghcr.io/michal-h21/make4ht-action:latest 
-     env: 
-       command: "make4ht -u -d out ${{ env.SRC_FILE }}" 
-   - name: Publish the web pages 
-     uses:  peaceiris/actions-gh-pages@v3 
-     with: 
-       github_token: ${{ secrets.GITHUB_TOKEN }} 
-       publish_dir: ./out
+    - name: Set up Git repository
+      uses: actions/checkout@v2 
+    - name: Install Pandoc and build HTML
+      run: sudo apt install pandoc | 
+        sudo pandoc --toc resume.tex -s --mathjax -o resume.html
+
+    - name: Publish the web pages 
+      uses:  peaceiris/actions-gh-pages@v3 
+      with: 
+        github_token: ${{ secrets.GITHUB_TOKEN }} 
+        publish_dir: ./ 
   
