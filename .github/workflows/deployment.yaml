@@ -19,12 +19,23 @@ jobs:
     - name: Install Pandoc and build HTML
       run: |
         sudo apt install pandoc 
-        sudo pandoc --toc resume.tex -s --mathjax -o resume.html
-        ls
+        mkdir -p pages
+        sudo pandoc --toc resume.tex -s --mathjax -o ./pages/index.html
+      
 
-    - name: Publish the web pages 
-      uses:  peaceiris/actions-gh-pages@v3 
-      with: 
-        github_token: ${{ secrets.GITHUB_TOKEN }} 
-        publish_dir: ./ 
-  
+    - name: Init new repo in pages folder and commit generated files
+      run: |
+        cd pages
+        git init
+        git add -A
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m 'deploy'
+        
+    - name: Force push to destination branch
+      uses: ad-m/github-push-action@v0.5.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages
+        force: true
+        directory: ./pages
