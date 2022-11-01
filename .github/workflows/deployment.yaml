@@ -32,7 +32,8 @@ jobs:
         run: |
           sudo apt install pandoc 
           mkdir -p pages
-          sudo pandoc --toc resume.tex -s --mathjax -o ./pages/index.html
+          sudo cp -r ./Images ./pages 
+          sudo pandoc resume.tex --toc -s -o ./pages/index.html
           
       - name: Setup Pages 
         uses: actions/configure-pages@v2
