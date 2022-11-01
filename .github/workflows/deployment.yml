@@ -31,14 +31,15 @@ jobs:
       - name: Install Pandoc and build HTML
         run: |
           sudo apt install pandoc 
-          sudo pandoc --toc resume.tex -s --mathjax -o ./index.html
+          mkdir -p pages
+          sudo pandoc --toc resume.tex -s --mathjax -o ./pages/index.html
           
       - name: Setup Pages 
         uses: actions/configure-pages@v2
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: '.'
+          path: './pages'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
