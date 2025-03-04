@@ -5,7 +5,6 @@ on:
     branches:
       - main
   workflow_dispatch:
-    
 
 env:
   SRC_DIR: ./
@@ -26,6 +25,7 @@ jobs:
         with:
           working_directory: ${{ env.SRC_DIR }}
           root_file: ${{ env.SRC_FILE }}
+
       - name: Upload PDF as artifact
         uses: actions/upload-artifact@v3
         with:
@@ -35,9 +35,8 @@ jobs:
       - name: Get DateTime
         id: date
         run: |
-          echo "NOW::$(date +'%Y-%m') >> $GITHUB_ENV" 
+          echo "NOW=$(date +'%Y-%m')" >> $GITHUB_ENV
           echo $NOW
-
 
       - name: Create Release
         id: create_release
@@ -51,12 +50,12 @@ jobs:
           prerelease: false
 
       - name: Upload Release Asset
-        id: upload-release-asset 
+        id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ env.SRC_DIR }}/${{ env.TARGET }}
           asset_name: ${{ env.TARGET }}
           asset_content_type: application/pdf
