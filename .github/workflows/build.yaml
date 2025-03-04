@@ -27,7 +27,7 @@ jobs:
           working_directory: ${{ env.SRC_DIR }}
           root_file: ${{ env.SRC_FILE }}
       - name: Upload PDF as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.TARGET }}
           path: ${{ env.SRC_DIR }}/${{ env.TARGET }}
