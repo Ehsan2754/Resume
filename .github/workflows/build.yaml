@@ -32,7 +32,7 @@ jobs:
         babel babel-german hyphen-german datetime fmtcount etoolbox hyperref url microtype
         xcolor colortbl geometry adjustbox collectbox ifoddpage varwidth ragged2e
         anyfontsize graphics graphics-def graphics-cfg tools amsmath xkeyval iftex
-        l3kernel l3packages changepage fancyhdr arydshln multirow
+        l3kernel l3packages changepage fancyhdr arydshln multirow pgf marvosym
     steps:
       - uses: actions/checkout@v4
 
