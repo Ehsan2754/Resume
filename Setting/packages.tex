@@ -1,11 +1,52 @@
-\usepackage[utf8]{inputenc}
-\usepackage[scale = 0.8,top=1.5cm, bottom=1.5cm]{geometry}
+% packages.tex -- loaded right after \documentclass[11pt,a4paper,sans]{moderncv}. XeLaTeX only (fontspec).
+% Design system: see README.md "Design system" and the vault note "Design Notes".
+\usepackage{fontspec}
+% Margins: 17 mm sides, 14/13 mm top/bottom (was scale=0.8 => ~21 mm sides, 15 mm top/bottom).
+\usepackage[a4paper, left=17mm, right=17mm, top=14mm, bottom=13mm]{geometry}
 \usepackage[export]{adjustbox}
 \usepackage{ragged2e}
 \usepackage{xcolor}
 \usepackage{anyfontsize}
-\usepackage[ngerman]{babel} 
+% English is the document language (hyphenation, quotes); ngerman stays loaded for German words/dates.
+\usepackage[ngerman, english]{babel}
 \usepackage[ddmmyyyy]{datetime}
 \renewcommand{\dateseparator}{.}
-% PDF metadata (title/author) — \ResumeHeadline is defined per persona in headline.tex
+% PDF metadata (title/author) -- \ResumeHeadline is defined per persona in headline.tex
 \AtBeginDocument{\hypersetup{pdftitle={Ehsan Shaghaei -- \ResumeHeadline},pdfauthor={Ehsan Shaghaei},pdfsubject={Resume}}}
+
+% Typeface: Inter (TeX Live package `inter`, OpenType files Inter-*.otf found by kpathsea), Regular + SemiBold only:
+% \textbf in the content renders SemiBold, so inline emphasis reads as emphasis, not shouting.
+% Why not Source Sans 3: it maps U+002D, U+00AD, U+2010 and U+2011 to one glyph, so xdvipdfmx writes U+2011 into the
+% text layer ("real‑time"); ATS keyword matching and the banned-word gate (`results[- ]driven`) then miss.
+% Inter has a separate glyph per hyphen code point, so "-" extracts as "-". Fallback chain: Inter -> Latin Modern Sans.
+\newif\ifResumeInter \ResumeInterfalse
+\IfFontExistsTF{Inter-Regular.otf}{\IfFontExistsTF{Inter-SemiBold.otf}{\IfFontExistsTF{Inter-Italic.otf}{%
+  \IfFontExistsTF{Inter-SemiBoldItalic.otf}{\ResumeIntertrue}{}}{}}{}}{}
+\ifResumeInter
+  \defaultfontfeatures{Ligatures=TeX, Numbers=Lining, Scale=0.9}%
+  \setmainfont{Inter-Regular.otf}[
+    BoldFont       = Inter-SemiBold.otf,
+    ItalicFont     = Inter-Italic.otf,
+    SlantedFont    = Inter-Italic.otf,
+    BoldItalicFont = Inter-SemiBoldItalic.otf,
+    BoldSlantedFont= Inter-SemiBoldItalic.otf]
+  \setsansfont{Inter-Regular.otf}[
+    BoldFont       = Inter-SemiBold.otf,
+    ItalicFont     = Inter-Italic.otf,
+    SlantedFont    = Inter-Italic.otf,
+    BoldItalicFont = Inter-SemiBoldItalic.otf,
+    BoldSlantedFont= Inter-SemiBoldItalic.otf]
+  % Display cut for the name: same family, tighter tracking at large size.
+  \newfontfamily\ResumeDisplayFont{Inter-Regular.otf}[LetterSpace=-2.0]
+\else
+  \PackageWarning{resume}{Inter not found (TeX Live package inter); falling back to Latin Modern Sans}
+  \let\ResumeDisplayFont\relax
+\fi
+
+% Leading: the 11 pt class sets 13.6 pt baselines; Inter scaled to 9.9 pt needs less (~13.0 pt = 1.31x, Inter's large x-height).
+\linespread{0.96}
+
+% Leave empty
+\name{}{}
+\title{}
+\photo[]{}

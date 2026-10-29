@@ -1,43 +1,132 @@
-% Leave empty
-\name{}{}
-\title{}
-\photo[]{}
-
+% commands.tex -- theme, type scale and title block. Single column, real text, no icons (ATS rules).
+% Design system (one accent, near-black text, mid-grey metadata; hierarchy by size/weight/space, not ornament):
+%   accent   #1F3A5F  "Ink navy"   -- section titles, rules, links. Nothing else is coloured.
+%   text     #1D1D1F  near-black   -- all body text
+%   meta     #6E6E73  mid-grey     -- dates/labels (hint column), headline, bullets, comments
+%   rule     #C7CDD6  light slate  -- photo hairline
+% Type scale (Inter, fontspec Scale=0.9, so effective = 0.9 x nominal): name 23.4 pt regular (tracking -2),
+% headline 10.8 pt grey, section 10.8 pt semibold accent, subsection 9.9 pt semibold, body 9.9 pt
+% (Inter's x-height ~0.55 em: reads like 10.5-11 pt Source Sans/Helvetica), hint column 9.0 pt grey. Bold = SemiBold.
 
 % Reduce the length of the footer
-\setlength{\footskip}{-45pt} 
+\setlength{\footskip}{-45pt}
 
-%Define the classic red modern cv theme
-\moderncvtheme[red]{classic}
+\moderncvtheme[blue]{classic}
 
-%Definition of a new highlight color instead of the previously defined one
-\definecolor{MyColor}{RGB}{0, 0, 0} % MyColor [Name of the variable]; R = 0, G = 0, B = 0
-% Apply the new created color "MyColor" as the default highlight color
-\colorlet{color1}{MyColor}
+\definecolor{ResumeAccent}{HTML}{1F3A5F}
+\definecolor{ResumeText}{HTML}{1D1D1F}
+\definecolor{ResumeMeta}{HTML}{6E6E73}
+\definecolor{ResumeRule}{HTML}{C7CDD6}
+% Old name kept so any \color{MyColor} in content keeps compiling; it is the text colour now, not a second accent.
+\colorlet{MyColor}{ResumeText}
+\colorlet{color0}{ResumeText}
+\colorlet{color1}{ResumeAccent}
+\colorlet{color2}{ResumeMeta}
+% Content uses \textcolor{blue}{...} around links. Redefine "blue" once here so links share the accent instead of RGB blue.
+\definecolor{blue}{HTML}{1F3A5F}
+\AtBeginDocument{\hypersetup{colorlinks=true, urlcolor=ResumeAccent, linkcolor=ResumeAccent, citecolor=ResumeAccent, pdfborder={0 0 0}}}
 
-%Set the left column to the width of the longest used word, in this case "Staatsangehörigkeit"
-\sethintscolumntowidth{Staatsangehörigkeit}
+% Fonts per role (moderncv hooks)
+\renewcommand*{\namefont}{\fontsize{26}{29}\mdseries\upshape}
+\renewcommand*{\titlefont}{\fontsize{12}{15}\mdseries\upshape}
+\renewcommand*{\sectionfont}{\fontsize{12}{15}\bfseries\upshape}
+\renewcommand*{\subsectionfont}{\fontsize{11}{13.5}\bfseries\upshape}
+\renewcommand*{\hintfont}{\fontsize{10}{12}\selectfont}
+\renewcommand*{\sectionstyle}[1]{{\sectionfont\textcolor{color1}{#1}}}
+\renewcommand*{\subsectionstyle}[1]{{\subsectionfont\textcolor{color0}{#1}}}
+\renewcommand*{\hintstyle}[1]{{\hintfont\textcolor{color2}{#1}}}
 
-% Define bullet point icon
-\renewcommand{\labelitemi}{-}
+% Hint column: as wide as the widest real label, set in the hint font (measured, not guessed), plus 1 pt.
+% Candidates cover the date ranges ("Aug 2019 -- Jan 2021" is the widest) and the longest skill label.
+\newlength{\ResumeHintW}
+\newcommand{\ResumeFitHint}[1]{\settowidth{\ResumeHintW}{\hintfont #1}\ifdim\ResumeHintW>\hintscolumnwidth\setlength{\hintscolumnwidth}{\ResumeHintW}\fi}
+\AtBeginDocument{%
+  \setlength{\hintscolumnwidth}{0pt}%
+  \ResumeFitHint{Industrial Ethernet}%
+  \ResumeFitHint{Nov 2023 -- Present}%
+  \ResumeFitHint{Aug 2019 -- Jan 2021}%
+  \ResumeFitHint{Jun 2026 -- Oct 2026}%
+  \ResumeFitHint{Feb 2021 -- Jan 2023}%
+  \ResumeFitHint{Jan 2023 -- Sep 2023}%
+  \addtolength{\hintscolumnwidth}{1pt}%
+  \setlength{\separatorcolumnwidth}{4.2mm}%
+  \recomputelengths}
 
-% Definition of new commands to create the CV title and signature
-\newcommand{\myPhoto}[1]{\includegraphics[width = 0.2\textwidth]{#1}}
+% Section heading: accent title in the main column, a thin accent hairline spanning the main column under it.
+% The hint column stays empty, so the left edge of every heading lines up with the text it introduces.
+\makeatletter
+% \cvitem takes short arguments (no \par), so the two-line heading body lives in its own long macro.
+\newcommand{\ResumeSectionBody}[1]{\parbox[t]{\maincolumnwidth}{\strut\sectionstyle{#1}\par\vspace{-1.1ex}{\color{color1}\rule{\maincolumnwidth}{0.4pt}}}}
+\RenewDocumentCommand{\section}{sm}{%
+  \par\addvspace{1.7ex}%
+  \phantomsection{}%
+  \addcontentsline{toc}{section}{#2}%
+  \cvitem[0ex]{}{\ResumeSectionBody{#2}}%
+  \par\nobreak\addvspace{0.6ex}\@afterheading}
+\RenewDocumentCommand{\subsection}{sm}{%
+  \par\addvspace{0.8ex}%
+  \phantomsection{}%
+  \addcontentsline{toc}{subsection}{#2}%
+  \cvitem[0ex]{}{\strut\subsectionstyle{#2}}%
+  \par\nobreak\addvspace{.3ex}\@afterheading}
+% Entry: role semibold, organisation regular (no slant), location in grey; description at body size, not \small.
+\renewcommand*{\cventry}[7][.3em]{%
+  \cvitem[#1]{#2}{%
+    {\bfseries#3}%
+    \ifthenelse{\equal{#4}{}}{}{, #4}%
+    \ifthenelse{\equal{#5}{}}{}{, {\color{color2}#5}}%
+    \ifthenelse{\equal{#6}{}}{}{, {\color{color2}#6}}%
+    \strut%
+    \ifx&#7&%
+    \else{\newline{}\begin{minipage}[t]{\linewidth}#7\end{minipage}}\fi}}
+% Comment column of \cvitemwithcomment / \cvlanguage: grey, upright, small.
+\renewcommand*{\cvitemwithcomment}[4][.25em]{%
+  \savebox{\cvitemwithcommentbox}{{#3}}%
+  \setlength{\cvitemwithcommentskilllength}{\widthof{\usebox{\cvitemwithcommentbox}}}%
+  \setlength{\cvitemwithcommentcommentlength}{\maincolumnwidth-\separatorcolumnwidth-\cvitemwithcommentskilllength}%
+  \cvitem[#1]{#2}{%
+    \begin{minipage}[t]{\cvitemwithcommentskilllength}\usebox{\cvitemwithcommentbox}\end{minipage}%
+    \hfill
+    \begin{minipage}[t]{\cvitemwithcommentcommentlength}\raggedleft\small\textcolor{color2}{#4}\end{minipage}}}
+\makeatother
 
-\newcommand{\myName}[2]{{\sffamily\fontsize{30}{36}\selectfont #1\\[10pt] #2}}
+% Bullets: small grey en dash, tight list geometry (applies to every itemize in Content/).
+\renewcommand{\labelitemi}{\textcolor{color2}{\textendash}}
+\renewcommand{\labelitemii}{\textcolor{color2}{\textendash}}
+\AtBeginDocument{%
+  \setlength{\leftmargini}{0.95em}%
+  \setlength{\labelsep}{0.4em}}
+\let\ResumeOrigItemize\itemize
+\renewcommand{\itemize}{\ResumeOrigItemize\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\topsep}{0.1ex}}
 
-\newcommand{\myCVtitle}[4]{
- \begin{minipage}[b]{0.6\textwidth}
- \myName{#1}{#2}\\[10pt]
-    {\color{MyColor}\huge \textit{#3}}
- \end{minipage}
- \hfill
+% Body text: ragged right (no rivers from justification in a narrow column), sensible hyphenation.
+\AtBeginDocument{\RaggedRight\setlength{\parindent}{0pt}}
+\hyphenpenalty=600
+\exhyphenpenalty=200
+
+% Title block: name, headline, optional photo. Signature unchanged: \myCVtitle{first}{last}{headline}{photo path or empty}.
+\newlength{\ResumePhotoW}
+\setlength{\ResumePhotoW}{25mm}
+\newcommand{\myPhoto}[1]{\includegraphics[width=\ResumePhotoW]{#1}}
+\newcommand{\myName}[2]{{\ResumeDisplayFont\namefont\color{color0}#1~#2}}
+\newcommand{\myCVtitle}[4]{%
  \edef\myPhotoPath{#4}%
- \ifx\myPhotoPath\empty\else\fcolorbox{MyColor}{white}{\myPhoto{\myPhotoPath}}\fi
- 
- \vspace{2em}
- 
- }
+ \noindent
+ \ifx\myPhotoPath\empty
+   \begin{minipage}[b]{\textwidth}
+ \else
+   \begin{minipage}[b]{\dimexpr\textwidth-\ResumePhotoW-6mm\relax}
+ \fi
+   \RaggedRight
+   \myName{#1}{#2}\par\vspace{1.2ex}%
+   {\titlefont\color{color2}\hyphenpenalty=10000\exhyphenpenalty=10000 #3\par}%
+ \end{minipage}%
+ \ifx\myPhotoPath\empty\else
+   \hfill
+   {\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.5pt}\fcolorbox{ResumeRule}{white}{\myPhoto{\myPhotoPath}}}%
+ \fi
+ \par\vspace{2.0ex}%
+}
 
 \newcommand{\sign}[3]{
     \vfill

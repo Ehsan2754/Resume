@@ -26,13 +26,14 @@ jobs:
     timeout-minutes: 10
     env:
       # XeLaTeX + moderncv (classic) + fontawesome5/academicons icon fonts + ngerman + packages from Setting/packages.tex.
+      # inter = the Inter OpenType files (Setting/packages.tex loads them by file name via fontspec; Latin Modern if absent).
       # tlmgr resolves dependencies (hyperref helpers, l3*, ...). Changing this list changes the cache key.
       TL_PACKAGES: >-
         latexmk xetex fontspec lm moderncv fontawesome5 fontawesome6 academicons
         babel babel-german hyphen-german datetime fmtcount etoolbox hyperref url microtype
         xcolor colortbl geometry adjustbox collectbox ifoddpage varwidth ragged2e
         anyfontsize graphics graphics-def graphics-cfg tools amsmath xkeyval iftex
-        l3kernel l3packages changepage fancyhdr arydshln multirow pgf marvosym
+        l3kernel l3packages changepage fancyhdr arydshln multirow pgf marvosym inter
     steps:
       - uses: actions/checkout@v4
 

@@ -69,6 +69,14 @@ The GitHub Pages deployment (`deployment.yaml`) is a cosmetic HTML rendering onl
 - no hidden text: font size under 6 pt, near-white fill, or glyphs outside the page (`tools/hidden_text_check.py`);
 - unreconciled numbers and `⚠️` placeholders (`tools/unreconciled.txt`) produce a loud warning. Delete a pattern there once its value is reconciled.
 
+## Design system
+
+- One accent, ink navy `#1F3A5F`, used only for section titles, their 0.4 pt hairline and links. Text is `#1D1D1F`, and dates, labels, headline and bullets use mid-grey `#6E6E73`.
+- Typeface: Inter Regular and SemiBold (TeX Live `inter`, fontspec, Latin Modern fallback). Effective sizes: name 23.4 pt, headline and section 10.8 pt, body 9.9 pt, hints 9 pt. Inter is used because its hyphens extract as ASCII `-`, which ATS parsing needs.
+- Margins are 17 mm at the sides and 14/13 mm top/bottom. The hint column is measured at build time to the widest real label ("Aug 2019 -- Jan 2021"), and section rules span the main column only.
+- Bullets are grey en dashes, body text is ragged-right, and the optional photo is 25 mm with a 0.5 pt `#C7CDD6` hairline. `\myCVtitle{first}{last}{headline}{photo}` is unchanged.
+- Page budgets: A 1, B 2, C 1, D 2, E 1. To fix an overflow, tighten spacing in `Setting/`, never cut content. Rationale: vault note `Job Hunt/20-Resume/Design Notes.md`.
+
 ## Credit
 
 The initial template is from this Overleaf [template](https://www.overleaf.com/latex/templates/dhik-lebenslauf-vorlage/jscfzhxchjcw).
