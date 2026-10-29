@@ -28,11 +28,11 @@ jobs:
       # XeLaTeX + moderncv (classic) + fontawesome5/academicons icon fonts + ngerman + packages from Setting/packages.tex.
       # tlmgr resolves dependencies (hyperref helpers, l3*, ...). Changing this list changes the cache key.
       TL_PACKAGES: >-
-        latexmk xetex fontspec lm lmodern moderncv fontawesome5 academicons
+        latexmk xetex fontspec lm moderncv fontawesome5 academicons
         babel babel-german hyphen-german datetime fmtcount etoolbox hyperref url microtype
-        xcolor colortbl geometry adjustbox collectbox trimclip ifoddpage varwidth ragged2e
+        xcolor colortbl geometry adjustbox collectbox ifoddpage varwidth ragged2e
         anyfontsize graphics graphics-def graphics-cfg tools amsmath xkeyval iftex
-        l3kernel l3packages l3backend changepage fancyhdr arydshln multirow
+        l3kernel l3packages changepage fancyhdr arydshln multirow
     steps:
       - uses: actions/checkout@v4
 
