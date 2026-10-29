@@ -57,11 +57,16 @@ jobs:
           # Surface the tail of the install log as an annotation if anything fails (job logs are not always retrievable).
           exec > >(tee "$RUNNER_TEMP/tl-install.log") 2>&1
           trap 'rc=$?; sleep 1; echo "::error title=TeX install failed rc=$rc::$(grep -iE "not present|error|unknown|fail|cannot|warning" "$RUNNER_TEMP/tl-install.log" | head -n 20 | tr -d "%\r" | paste -sd "|" -)"' ERR
-          # Pin one CTAN mirror so install-tl and tlmgr do not hop between mirrors.
-          REPO="$(curl -fsSL -o /dev/null -w '%{url_effective}' https://mirror.ctan.org/systems/texlive/tlnet/)"
+          # Pin one working CTAN mirror (the mirror.ctan.org redirector sometimes lands on mirrors with bad certificates).
+          REPO=""
+          for m in https://ctan.math.illinois.edu/systems/texlive/tlnet https://mirrors.mit.edu/CTAN/systems/texlive/tlnet \
+                   https://ftp.fau.de/ctan/systems/texlive/tlnet https://mirror.ctan.org/systems/texlive/tlnet; do
+            if curl -fsSI --max-time 20 "$m/install-tl-unx.tar.gz" >/dev/null; then REPO="$m"; break; fi
+          done
+          test -n "$REPO"
           echo "mirror: $REPO"
           mkdir -p "$RUNNER_TEMP/tlinst" && cd "$RUNNER_TEMP/tlinst"
-          curl -fsSL "${REPO}install-tl-unx.tar.gz" | tar xz --strip-components=1
+          curl -fsSL "${REPO}/install-tl-unx.tar.gz" | tar xz --strip-components=1
           cat > texlive.profile <<EOF
           selected_scheme scheme-basic
           TEXDIR $HOME/texlive/current
