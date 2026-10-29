@@ -56,7 +56,7 @@ jobs:
           set -euo pipefail
           # Surface the tail of the install log as an annotation if anything fails (job logs are not always retrievable).
           exec > >(tee "$RUNNER_TEMP/tl-install.log") 2>&1
-          trap 'rc=$?; sleep 1; echo "::error title=TeX install failed rc=$rc::$(tail -n 25 "$RUNNER_TEMP/tl-install.log" | tr -d "%\r" | paste -sd "|" -)"' ERR
+          trap 'rc=$?; sleep 1; echo "::error title=TeX install failed rc=$rc::$(grep -iE "not present|error|unknown|fail|cannot|warning" "$RUNNER_TEMP/tl-install.log" | head -n 20 | tr -d "%\r" | paste -sd "|" -)"' ERR
           # Pin one CTAN mirror so install-tl and tlmgr do not hop between mirrors.
           REPO="$(curl -fsSL -o /dev/null -w '%{url_effective}' https://mirror.ctan.org/systems/texlive/tlnet/)"
           echo "mirror: $REPO"
