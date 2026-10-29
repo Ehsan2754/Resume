@@ -1,65 +1,124 @@
 name: Resume build
 
-# One source, one PDF per persona (see README.md). Matrix build, then ONE release with all PDFs attached.
+# One source, one PDF per persona (see README.md). ONE build job (make all), then ONE release with all PDFs attached.
+# TeX Live is a minimal scheme-basic install that setup-texlive-action caches between runs (no apt TeX install).
 on:
   push:
     branches: [main]
     tags: ["v*"]
+    paths-ignore:
+      - "README.md"
+      - "docs/**"
+      - "archive/**"
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
-    name: build ${{ matrix.persona }}
+    name: build all personas
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        persona: [A-edgeml, B-platformfw, C-englead, D-fae, E-lowlatency]
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install TeX Live (XeLaTeX, moderncv, fontawesome5, academicons, ngerman) and poppler
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            texlive-xetex texlive-latex-extra texlive-fonts-extra texlive-fonts-recommended \
-            texlive-lang-german latexmk poppler-utils make
+      - name: Install TeX Live (minimal, cached)
+        uses: teatimeguest/setup-texlive-action@v3
+        timeout-minutes: 6
+        with:
+          scheme: basic
+          # XeLaTeX + moderncv (classic) + fontawesome5/academicons icon fonts + ngerman + the packages in Setting/packages.tex.
+          # Dependencies (hyperref helpers, l3*, etc.) are resolved by tlmgr.
+          packages: |
+            latexmk
+            xetex
+            fontspec
+            lm
+            lmodern
+            moderncv
+            fontawesome5
+            academicons
+            babel
+            babel-german
+            hyphen-german
+            datetime
+            fmtcount
+            etoolbox
+            hyperref
+            url
+            microtype
+            xcolor
+            colortbl
+            geometry
+            adjustbox
+            collectbox
+            trimclip
+            ifoddpage
+            varwidth
+            ragged2e
+            anyfontsize
+            graphics
+            graphics-def
+            graphics-cfg
+            tools
+            amsmath
+            xkeyval
+            iftex
+            l3kernel
+            l3packages
+            l3backend
+            changepage
+            fancyhdr
+            arydshln
+            multirow
+
+      - name: Install poppler-utils (pdftotext, pdfinfo)
+        uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: poppler-utils
+          version: 1.0
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: pip
+          cache-dependency-path: .github/workflows/build.yaml
 
       - name: Install PyMuPDF (hidden-text check)
         run: pip install pymupdf
 
-      - name: Build and check (make ${{ matrix.persona }})
+      - name: Build and check (make all)
+        timeout-minutes: 5
         run: |
           set -o pipefail
-          make ${{ matrix.persona }} 2>&1 | tee build.log
-          # Mark PDFs that still contain unreconciled values / placeholders (check only warns for these).
-          if grep -q '^WARN: unreconciled' build.log; then
-            for f in dist/*.pdf; do echo "unreconciled placeholders" > "$f.warn"; done
-          fi
+          make all 2>&1 | tee build.log
+          # Mark only the PDFs whose own check printed "WARN: unreconciled" (check output follows its "built <pdf>" line).
+          awk '/^built /{f=$2} /^WARN: unreconciled/{if(f!="") print f}' build.log | while read -r f; do
+            echo "unreconciled placeholders" > "$f.warn"
+          done
+          ls -l dist
 
-      - name: Upload PDF
+      - name: Upload PDFs
         uses: actions/upload-artifact@v4
         with:
-          name: resume-${{ matrix.persona }}
+          name: resumes
           path: |
             dist/*.pdf
             dist/*.warn
           if-no-files-found: error
           retention-days: 30
 
-      - name: Upload LaTeX log on failure
+      - name: Upload LaTeX logs on failure
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: log-${{ matrix.persona }}
-          path: build/${{ matrix.persona }}/resume.log
+          name: latex-logs
+          path: build/*/resume.log
           if-no-files-found: ignore
 
   release:
@@ -67,14 +126,14 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       contents: write
     steps:
       - uses: actions/download-artifact@v4
         with:
-          pattern: resume-*
+          name: resumes
           path: dist
-          merge-multiple: true
 
       - name: Compose release metadata
         id: meta
