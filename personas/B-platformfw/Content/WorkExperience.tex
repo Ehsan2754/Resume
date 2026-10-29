@@ -5,7 +5,7 @@
 % Removed from base: "10 times (520ms to 50ms)" (W-01, ⚠️ R1 — no W-01/W-03/W-04 used here), "pipelining and dynamic caching" (W-04-adjacent, ⚠️ R7),
 %   "9+" projects (⚠️ R11), "reducing manual QA time by 80%" (I-04, ⚠️ R10), "96.7%" (I-01 → 96.75 %, ANPR moved to Publications).
 % Ortiq omitted (default B = Big Tech / silicon-vendor IC loop). For OEM AT / Helsing / contractor builds add one "Other" line: Founder & CTO, Ortiq (2026).
-% Lab titles kept as on the cv (photo build = DE OEM / Mittelstand, titles read literally). Downgrade Innopolis to "Embedded Engineer" for Big Tech.
+% Lab titles: Kazan as on the cv. RaccoonLab = "Principal Engineer" [stated 2026-10-29] on every build (overrides the old Big-Tech downgrade rule; Bullet Bank §4, ⚠️ R25 verification).
 
 \section{Summary}
 \cvitem{}{Platform firmware engineer who owns the Linux stack -- bootloader to application -- for three industrial sensor product families on Zynq UltraScale+ and ARM64 SoCs. Brings kernel and driver work (V4L2, I2C, DMA), real-time Ethernet integration, and the release discipline that shipped FW 1.3.0.}   % W-06 (3 families) · W-09 · W-07 · W-15 · W-12 · W-05 (qualitative, no %) — 44 words
@@ -32,18 +32,19 @@
 \cventry{Feb 2021 -- Jan 2023}{Embedded Development Lead}{Kazan Scientific Center, Quantum Optics Lab}{Kazan, Russia}{}{
 \begin{itemize}
   \item Designed the high-speed Spatial Light Modulator control protocol and public SDK: bare-metal Cortex-M firmware plus Linux drivers over RNDIS/USB and MIPI CSI-2.   % K-01 — scope: several optical experiments
-  \item Set up reproducible builds and containerised CI (GitHub Actions, Docker); published the SDK with Sphinx docs.   % K-02 — qualitative
+  \item Set up reproducible builds and containerised CI (GitHub Actions, Docker); published the open-source Python SDK (holoeye\_embedded) with Sphinx docs.   % K-02 + K-03 — public repo github.com/Ehsan2754/HOLOEYE-PLUTO-2-EMBEDDED
 \end{itemize}}
 
-\cventry{Aug 2019 -- Jan 2021}{Principal Embedded Engineer}{Unmanned Technology Lab, Innopolis University}{Innopolis, Russia}{}{
+\cventry{Aug 2019 -- Jan 2021}{Principal Engineer}{RaccoonLab (Innopolis)}{Innopolis, Russia}{}{   % [stated 2026-10-29] org + title; dates ⚠️ R24
 \begin{itemize}
-  \item Built the real-time node network linking PX4/ArduPilot autopilots to custom sensors: C/C++ FreeRTOS firmware, ROS, UAVCAN/DroneCAN/OpenCyphal.   % I-03 — scope: 2 autopilot stacks
-  \item Designed multi-layer UAV controller PCBs in Altium and ran HIL tests on the control pipeline; handled component substitution per batch.   % I-05 — qualitative
-  \item Co-invented a registered visual-positioning system for autonomous multirotor landing (patent RU 2022610258).   % I-02 / P-05 — 1 patent. I-04 (−80 % QA) omitted: ⚠️ R10
+  \item Developed autonomous-drone CAN modules end to end: Altium hardware, C/C++ FreeRTOS firmware, UAVCAN/DroneCAN/Cyphal protocol layer, bench tooling.   % I-06 (Arg 2, lead) — no count: ⚠️ R19 open, non-numeric form
+  \item Took the modules into production: ran the ramp-up, estimated cost per batch and qualified drop-in substitutes for components that went scarce mid-run.   % I-07 (Arg 3) — no units/duration: ⚠️ R20 R21 open, non-numeric form
+  \item Integrated the nodes with PX4/ArduPilot autopilots and automated firmware builds and HIL simulation in GitHub Actions.   % I-03 + I-10 (+ HIL half of I-05) — 2 autopilot stacks; I-04 (−80 % QA) still omitted: ⚠️ R10
+  \item Co-invented a registered visual-positioning system for autonomous multirotor landing (patent RU 2022610258).   % I-02 / P-05 — 1 patent
 \end{itemize}}
 
 \cventry{2013 -- 2019}{Embedded \& PCB Developer}{Freelance and FUM Robotics Lab}{Mashhad, Iran}{}{
 \begin{itemize}
   \item Shipped AVR firmware and PCBs for a dental X-ray exposure controller, a wireless kiln thermometer and an A/C servicing machine.   % E-02 — 3 named boards
-  \item Built STM32/FreeRTOS localisation nodes over LoRaWAN, UWB (DW1000) and GNSS.   % E-02 — 3 radio stacks (4th shipped board)
+  \item Built STM32/FreeRTOS localisation nodes over LoRaWAN, UWB (DW1000) and GNSS for the City of Mashhad (FUM Robotics Lab).   % E-02 + E-09 — 3 radio stacks; customer from long cv L124
 \end{itemize}}
