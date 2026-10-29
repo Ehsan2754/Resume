@@ -1,0 +1,55 @@
+% HEADLINE: Applications Engineer -- ARM SoCs, NPUs, industrial Ethernet, camera sensors
+% Persona D (FAE / Solutions Engineer), 2 pages. Every number cites a Bullet Bank ID in a trailing % comment.
+% \textbf{⚠️ ID} = unreconciled value (Open Reconciliations), must be replaced before a final build — never pick a value.
+% Arguments: (1) evaluates and designs in vendor technology, (2) builds reference pipelines and tools other teams adopt, (3) works with customers, factories and partners.
+% Customer-facing framing: each Wenglor bullet names the vendor stack and what was handed to the next team (PoC, process, tool, guidance).
+% Ortiq shown (persona D rule) as a short entry; sorted by end date (Wenglor = Present > Ortiq Oct 2026 > Yandex). RoboCup is an Experience/leadership entry here.
+% No W-01/W-03/W-04 used. Lab titles kept as on the cv (persona D has no downgrade rule).
+
+\section{Summary}
+\cvitem{}{Embedded engineer who has sat on the customer side of five vendor stacks -- Hilscher netX, WIBU CodeMeter, AMLogic NPU, Sony IMX, AMD Zynq -- evaluated them and built the PoCs. Brings hands-on Linux depth, tools that other teams adopt, and factory-floor work with 6 OEMs.}   % W-12 W-13 W-02 W-07 (5 named stacks) · W-08 (2 adopting teams) · Y-01 (6 OEMs; ⚠️ R11 is on the project count only, not used here) — 44 words
+
+\section{Experience}
+
+\cventry{Nov 2023 -- Present}{Embedded Linux Software Developer}{Wenglor MEL GmbH}{Unterschleißheim, Germany}{}{   % F-01 ⚠️ R4: cv title kept until R4 is ticked
+\begin{itemize}
+  \item Prototyped EtherNet/IP on \textbf{Hilscher CiFX / netX90} and evaluated PROFINET and EtherCAT; defined the integration path for the sensor lines.   % W-12 (Arg 1) — 3 protocols
+  \item Evaluated \textbf{WIBU CodeMeter} and introduced the firmware licensing process at Wenglor; PoC in progress.   % W-13 (Arg 1) — 1 process; "introduced", not "rolled out"
+  \item Integrated the AMLogic A311D NPU via OpenCL (30~ms to 3~ms per frame) and Sony IMX296/IMX567 sensors on A311D and Zynq UltraScale+.   % W-02 (✅ R3) + W-07 (2 sensors, 2 SoCs) — Arg 1
+  \item Designed and shipped a C++ test and production tool for the B60 smart-camera line, concept to deployment, adopted by 2 teams.   % W-08 (Arg 2) — production + development teams
+  \item Architected a modular Ethernet vision server (nginx- and GenICam-inspired) now reused across 3 product families.   % W-06 (Arg 2) — 3 families
+  \item Wrote the Cyber Resilience Act path: read-only rootfs and A/B updates shipped, container isolation for user apps proposed.   % W-11 (Arg 2) — 2 shipped + 1 proposal
+  \item Ran a development-process workshop for the firmware team; mentored engineers and students on V4L2, CRA and HIL testing.   % W-17 (Arg 3) — 1 workshop
+\end{itemize}}
+
+\cventry{Jun 2026 -- Oct 2026}{Founder \& CTO}{Ortiq}{Munich, Germany}{}{Built a decision-intelligence / spatial-analytics SaaS from zero: engine, web app, infra, compliance. \textbf{⚠️ O-01}}   % O-01 (Arg 3) — ⚠️ R15: no reconciled metric; replace with one metric or delete the placeholder. "3 startups" (O-02, ⚠️ R16) NOT used. Description form to save a line.
+
+\cventry{Jan 2023 -- Sep 2023}{OEM Process Manager}{Yandex, Smart Devices -- Factory Team}{Moscow, Russia}{}{
+\begin{itemize}
+  \item Synchronised production plans for \textbf{⚠️ Y-01} smart-device projects across 6 Shenzhen OEMs, each line at ~7,000~units/day per colour.   % Y-01 (Arg 3) — 6 OEMs, 7,000/day ✅; project count ⚠️ R11 (9 vs 9+)
+  \item Built one Python toolchain (OpenHTF, ADB, U-Boot, Ansible/Salt) automating 4 factory workflows: flashing, SN/MAC, HDCP keys, QA.   % Y-02 (Arg 3) — 4 workflows
+  \item Re-shaped QA/QC/AQL with the OEM partners and introduced metrics-driven defect tracking.   % Y-04 (Arg 3) — qualitative; scope = OEM partners
+\end{itemize}}
+
+\cventry{Feb 2021 -- Jan 2023}{Embedded Development Lead}{Kazan Scientific Center, Quantum Optics Lab}{Kazan, Russia}{}{
+\begin{itemize}
+  \item Designed the Spatial Light Modulator control protocol and public SDK (Cortex-M firmware, Linux drivers over USB and MIPI CSI-2), used across several optical experiments.   % K-01 (Arg 2) — scope: several experiments
+  \item Published the SDK with Sphinx docs and containerised CI (GitHub Actions, Docker) so other groups could build it.   % K-02 (Arg 2) — qualitative
+\end{itemize}}
+
+\cventry{Aug 2019 -- Jan 2021}{Principal Embedded Engineer}{Unmanned Technology Lab, Innopolis University}{Innopolis, Russia}{}{
+\begin{itemize}
+  \item Built an ANPR smart-parking pipeline at 96.75\,\% recognition accuracy (TensorFlow, Tesseract); published at CSCT 2022 (Springer).   % I-01 / P-01 — 96.75 %
+  \item Designed multi-layer UAV controller PCBs in Altium; handled component substitution and cost estimation per batch.   % I-05 — design-in angle
+  \item Co-invented a registered visual-positioning system for autonomous multirotor landing (patent RU 2022610258).   % I-02 — 1 patent
+\end{itemize}}
+
+\cventry{2014}{Team Captain, PCB \& Firmware}{R2T robotics team}{Mashhad, Iran}{}{
+\begin{itemize}
+  \item Led the team to the RoboCup 2014 world title (Junior Rescue B, João Pessoa) and the IranOpen 2014 national title.   % E-01 (Arg 3, earliest leadership) — 1st place ×2; ⚠️ R13 "2nd then 1st" NOT used; "Team Captain" user-stated 2026-10-29
+\end{itemize}}
+
+\cventry{2013 -- 2019}{Embedded \& PCB Developer}{Freelance and FUM Robotics Lab}{Mashhad, Iran}{}{
+\begin{itemize}
+  \item Shipped firmware and PCBs for 4 client products: dental X-ray controller, kiln thermometer, A/C servicing machine, STM32 LoRaWAN/UWB nodes.   % E-02 — 4 shipped boards
+\end{itemize}}

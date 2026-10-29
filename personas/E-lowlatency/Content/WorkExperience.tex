@@ -1,0 +1,24 @@
+% HEADLINE: C++ Systems Engineer -- latency-critical pipelines on Linux/ARM (SIMD, DMA, zero-copy networking)
+% Persona E (low-latency C++), 1 page, hard limit. Summary is at the top of Skills.tex for this persona (Skills precedes Experience in order.txt) — see the note there.
+% \textbf{⚠️ ID} = unreconciled value (Open Reconciliations), must be replaced before a final build — never pick a value.
+% Arguments: (1) measures and removes latency, (2) works in the kernel and on the wire, (3) builds with a performance toolbox and proves it.
+% Only W-01 of the W-01/W-03/W-04 group is used. Hidden: Ortiq, startups, Yandex management angle, Altium/PCB work, photo, ORCID. Lab "Principal" title → "Embedded Engineer".
+% W-09 (CI/HIL) dropped from bullets for the 1-page budget — kept as "HIL regression" in Skills/Tooling; Arg 3 carried by K-01, E-03 (Awards) and the Skills toolbox.
+% Line budget: ~80 characters per body line; every bullet renders on ONE line.
+
+\section{Experience}
+
+\cventry{Nov 2023 -- Present}{Embedded Linux Software Developer}{Wenglor MEL GmbH}{Unterschleißheim}{}{   % F-01 ⚠️ R4: cv title kept until R4 is ticked
+\begin{itemize}
+  \item Cut G4 profile loading from 520~ms to \textbf{⚠️ W-01} with ARM NEON and a LUT.   % W-01 (Arg 1) — ⚠️ R1 (20 vs 50 ms); 520 ms is the shared baseline
+  \item Moved CNN inference onto the A311D NPU via OpenCL: 30~ms to 3~ms per frame.   % W-02 (Arg 1) — ✅ R3, 10×
+  \item Debugged intermittent TCP drops on a Zynq sensor (Wireshark, ProfiShark, iperf).   % W-16 (Arg 2) — scope: Ethernet + RTE stack validation
+  \item Root-caused a B60 I2C bus-busy fault in the kernel; migrated the G4 line to kernel 6.1.   % W-15 + W-10 (Arg 2)
+  \item Architected an event-driven, nginx-style vision server reused across 3 product families.   % W-06 (Arg 2) — 3 families; multiple clients without frame-rate loss
+\end{itemize}}
+
+\cventry{Jan 2023 -- Sep 2023}{OEM Process Manager}{Yandex, Smart Devices}{Moscow}{}{Built a Python toolchain automating 4 factory workflows (flashing, SN/MAC, HDCP, QA).}   % Y-02 — 4 workflows
+
+\cventry{Feb 2021 -- Jan 2023}{Embedded Development Lead}{Kazan Scientific Center}{Russia}{}{Designed a high-speed SLM control protocol: bare-metal Cortex-M plus Linux drivers.}   % K-01 (Arg 3) — scope: USB/RNDIS + MIPI CSI-2
+
+\cventry{Aug 2019 -- Jan 2021}{Embedded Engineer}{Unmanned Technology Lab, Innopolis Univ.}{Russia}{}{Wrote C/C++ FreeRTOS firmware for real-time nodes on PX4/ArduPilot over UAVCAN.}   % I-03 — title downgraded per persona E (cv: "Principal Embedded Engineer")

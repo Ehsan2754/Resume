@@ -1,0 +1,15 @@
+% Skills.tex — Persona E. order.txt puts Skills before Experience (HFT screeners scan the stack first).
+% DEVIATION: the Summary lives at the top of THIS file (not WorkExperience.tex) so the governing thought still comes first after Contact
+%   (persona E order: Contact, Summary, Skills, Experience). Headline comment stays in WorkExperience.tex.
+% Summary: "order of magnitude" is the persona-E sanctioned non-numeric form of W-01 — true for both ⚠️ R1 candidates (10× / 25×); replace with the exact figure once R1 is ticked.
+% Skills order per persona E: C++17/STL/Boost.Asio first, then SIMD/NEON/OpenMP/OpenCL, then Linux internals / networking, then tooling.
+% Not claimed: C++20, lock-free, DPDK / kernel bypass, NUMA, x86 (persona E "omit" list).
+\section{Summary}
+\cvitem{}{C++ engineer who cuts latency on ARM Linux: 10$\times$ on NPU inference, an order of magnitude on a NEON data path, TCP and kernel faults traced to root cause.}   % W-02 (30→3 ms = 10× ✅ R3) · W-01 (non-numeric form, ⚠️ R1) · W-16 + W-15 — 28 words; arguments = latency / kernel+wire / measurement (toolbox in Skills)
+
+\section{Skills}
+    \cvitem{C++}{C++17, STL, templates, Boost.Asio, async TCP, GTest, CMake; C, POSIX}   % §8 Languages; cv Skills.tex (BoostASIO, AsyncTCP, sockets, POSIX)
+    \cvitem{SIMD / parallel}{ARM NEON intrinsics, OpenMP, OpenCL, NPU offload, cache-aware layout, LUTs}   % W-01 W-02 §8 Performance
+    \cvitem{Linux / network}{Linux kernel 6.1, V4L2, DMA, I2C; TCP/IP, ZeroMQ, Wireshark, iperf, tcpdump}   % W-07 W-10 W-15 W-16
+    \cvitem{Tooling}{perf, valgrind, gcc sanitizers, gdb, Jenkins, HIL regression; Python, Bash}   % §8 Performance + Process; W-09
+    \cvitem{Languages}{English (fluent), Persian (native), Russian, German (basic)}   % F-04; F-03 ⚠️ R5 — "basic", never inflated
