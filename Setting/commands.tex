@@ -105,25 +105,43 @@
 \exhyphenpenalty=200
 
 % Title block: name, headline, optional photo. Signature unchanged: \myCVtitle{first}{last}{headline}{photo path or empty}.
+% Photo (DE/EU builds only; photo.txt = none for US-HQ): modern German header convention -- small portrait (~24 x 32 mm,
+% 3:4), top-right, top edge on the cap height of the name, no frame or padding; a 0.3 pt light-slate hairline on a
+% 2 mm-radius rounded clip keeps a white studio background from dissolving into the page.
+% Evidence: vault note "Benchmark -- Resumes That Landed" (bewerbung-express.de: modern layout ~3 x 4 cm, frameless,
+% optional rounded crop; talentvp.com: header beside the name or top-right). tikz ships in pgf (already in TL_PACKAGES).
+\RequirePackage{tikz}
 \newlength{\ResumePhotoW}
-\setlength{\ResumePhotoW}{25mm}
-\newcommand{\myPhoto}[1]{\includegraphics[width=\ResumePhotoW]{#1}}
+\setlength{\ResumePhotoW}{24mm}
+\newlength{\ResumePhotoH}
+\newsavebox{\ResumePhotoBox}
+\newcommand{\myPhoto}[1]{%
+  \sbox{\ResumePhotoBox}{\includegraphics[width=\ResumePhotoW]{#1}}%
+  \setlength{\ResumePhotoH}{\ht\ResumePhotoBox}%
+  \begin{tikzpicture}[baseline=(current bounding box.north)]
+    \begin{scope}
+      \clip[rounded corners=2mm] (0,0) rectangle (\ResumePhotoW,\ResumePhotoH);
+      \node[anchor=south west, inner sep=0pt, outer sep=0pt] at (0,0) {\usebox{\ResumePhotoBox}};
+    \end{scope}
+    \draw[ResumeRule, line width=0.3pt, rounded corners=2mm] (0,0) rectangle (\ResumePhotoW,\ResumePhotoH);
+  \end{tikzpicture}}
 \newcommand{\myName}[2]{{\ResumeDisplayFont\namefont\color{color0}#1~#2}}
 \newcommand{\myCVtitle}[4]{%
  \edef\myPhotoPath{#4}%
  \noindent
  \ifx\myPhotoPath\empty
-   \begin{minipage}[b]{\textwidth}
+   \begin{minipage}[t]{\textwidth}
  \else
-   \begin{minipage}[b]{\dimexpr\textwidth-\ResumePhotoW-6mm\relax}
+   \begin{minipage}[t]{\dimexpr\textwidth-\ResumePhotoW-6mm\relax}
  \fi
+   \vspace{0pt}% top-align: the box's reference point is its top edge, not the first baseline
    \RaggedRight
    \myName{#1}{#2}\par\vspace{1.2ex}%
    {\titlefont\color{color2}\hyphenpenalty=10000\exhyphenpenalty=10000 #3\par}%
  \end{minipage}%
  \ifx\myPhotoPath\empty\else
    \hfill
-   {\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.5pt}\fcolorbox{ResumeRule}{white}{\myPhoto{\myPhotoPath}}}%
+   \begin{minipage}[t]{\ResumePhotoW}\vspace{0pt}\myPhoto{\myPhotoPath}\end{minipage}%
  \fi
  \par\vspace{2.0ex}%
 }

@@ -8,13 +8,13 @@
 % Line budget (same as Persona C): ~80 characters per body line; every bullet is written to render on ONE line. Full forms live in the Bullet Bank.
 
 \section{Summary}
-\cvitem{}{Embedded Linux engineer who cut CNN inference on an ARM NPU from 30~ms to 3~ms and owns the kernel-to-app path for three camera lines. Brings fast ARM inference, V4L2 sensor bring-up, and a Yocto/CI platform.}   % W-02 (✅ R3) · W-06 (3 product families) · W-07 · W-09 — 37 words
+\cvitem{}{Embedded Linux engineer who owns the kernel-to-app path for three camera lines and cut on-device CNN inference 10\texttimes{} on an ARM NPU.}   % W-06 (3 product families) · W-02 (✅ R3, 10×) — 23 words; bring-up / NEON / Yocto evidence is in bullets 2–7; ≤ 30 words / 2 lines on 1-page Big Tech builds (Benchmark P2)
 
 \section{Experience}
 
 \cventry{Nov 2023 -- Present}{Embedded Linux Software Developer}{Wenglor MEL GmbH}{Unterschleißheim}{}{   % F-01 ⚠️ R4: cv title kept until R4 is ticked; ", Germany" dropped so the header stays on one line (as Persona C)
 \begin{itemize}
-  \item Moved CNN inference onto the A311D NPU via OpenCL: 30~ms to 3~ms per frame.   % W-02 (Arg 1) — ✅ R3; shipped in production cameras
+  \item Cut CNN inference 10\texttimes{} (30 to 3~ms) by moving it onto the A311D NPU via OpenCL.   % W-02 (Arg 1) — ✅ R3; shipped in production cameras. Google X-Y-Z order: result, measure, method (Benchmark P3)
   \item Cut G4 profile loading from 520~ms to \textbf{⚠️ W-01} with ARM NEON and a LUT.   % W-01 (Arg 1) — ⚠️ R1 (20 vs 50 ms); 520 ms is the shared baseline
   \item Stress-tested the NPU and GPU inference paths; surfaced stability issues pre-release.   % W-19 (Arg 1) — scope: NPU + GPU paths
   \item Brought up Sony IMX296/IMX567 on A311D and Zynq; wrote the V4L2 sub-devices.   % W-07 (Arg 2) — 2 sensors, 2 SoCs, MIPI CSI-2

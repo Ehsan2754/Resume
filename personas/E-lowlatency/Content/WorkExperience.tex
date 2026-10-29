@@ -11,7 +11,7 @@
 \cventry{Nov 2023 -- Present}{Embedded Linux Software Developer}{Wenglor MEL GmbH}{Unterschleißheim}{}{   % F-01 ⚠️ R4: cv title kept until R4 is ticked
 \begin{itemize}
   \item Cut G4 profile loading from 520~ms to \textbf{⚠️ W-01} with ARM NEON and a LUT.   % W-01 (Arg 1) — ⚠️ R1 (20 vs 50 ms); 520 ms is the shared baseline
-  \item Moved CNN inference onto the A311D NPU via OpenCL: 30~ms to 3~ms per frame.   % W-02 (Arg 1) — ✅ R3, 10×
+  \item Cut CNN inference 10\texttimes{} (30 to 3~ms) by moving it onto the A311D NPU via OpenCL.   % W-02 (Arg 1) — ✅ R3, 10×. X-Y-Z order: result, measure, method (Benchmark P3)
   \item Debugged intermittent TCP drops on a Zynq sensor (Wireshark, ProfiShark, iperf).   % W-16 (Arg 2) — scope: Ethernet + RTE stack validation
   \item Root-caused a B60 I2C bus-busy fault in the kernel; migrated the G4 line to kernel 6.1.   % W-15 + W-10 (Arg 2)
   \item Architected an event-driven, nginx-style vision server reused across 3 product families.   % W-06 (Arg 2) — 3 families; multiple clients without frame-rate loss
