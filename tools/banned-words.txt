@@ -1,0 +1,33 @@
+\bpassionate\b
+\bresults[- ]driven\b
+\bsynerg
+\bleverag(e|ed|ing)\b
+\bspearhead
+\bproven track record\b
+\bgo-getter\b
+\bself-starter\b
+\bthought leader\b
+\brockstar\b
+\bninja\b
+\bguru\b
+\bexcited to\b
+\bdetail-oriented\b
+\bteam player\b
+\bhard-working\b
+\bcutting-edge\b
+\bstate-of-the-art\b
+\bworld-class\b
+\bbest-in-class\b
+\bseamless(ly)?\b
+\butiliz(e|ed|ing)\b
+\bresponsible for\b
+\bhelped\b
+\bassisted\b
+\bparticipated in\b
+\bexposure to\b
+\bfamiliar with\b
+\bsignificantly\b
+\bdramatically\b
+\bmassively\b
+\bextensive(ly)?\b
+\bexcellent communication\b

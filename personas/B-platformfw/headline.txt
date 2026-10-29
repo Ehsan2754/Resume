@@ -1,0 +1,1 @@
+Firmware \& Embedded Linux Platform Engineer -- Zynq UltraScale+ / ARM SoCs, kernel, drivers, real-time Ethernet

@@ -29,9 +29,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Pandoc and build HTML
+        # cosmetic only (pandoc cannot interpret the moderncv/persona macros); never block the Pages deploy on it
+        continue-on-error: true
         run: |
-          sudo apt install pandoc 
           mkdir -p pages
+          sudo apt install -y pandoc 
           sudo cp -r ./Images ./pages 
           sudo pandoc resume.tex --toc -s -o ./pages/index.html
           

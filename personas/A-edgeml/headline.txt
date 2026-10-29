@@ -1,0 +1,1 @@
+Embedded Linux \& On-Device ML Engineer -- ARM/NPU/GPU vision pipelines

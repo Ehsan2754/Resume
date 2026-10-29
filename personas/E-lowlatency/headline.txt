@@ -1,0 +1,1 @@
+C++ Systems Engineer -- latency-critical pipelines on Linux/ARM (SIMD, DMA, zero-copy networking)

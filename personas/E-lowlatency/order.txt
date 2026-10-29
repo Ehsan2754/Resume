@@ -1,0 +1,7 @@
+PersonalInformation
+Skills
+WorkExperience
+Education
+AdditionalQualifications
+Projects
+Extra

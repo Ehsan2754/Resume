@@ -7,3 +7,5 @@
 \usepackage[ngerman]{babel} 
 \usepackage[ddmmyyyy]{datetime}
 \renewcommand{\dateseparator}{.}
+% PDF metadata (title/author) — \ResumeHeadline is defined per persona in headline.tex
+\AtBeginDocument{\hypersetup{pdftitle={Ehsan Shaghaei -- \ResumeHeadline},pdfauthor={Ehsan Shaghaei},pdfsubject={Resume}}}

@@ -1,0 +1,33 @@
+% HEADLINE: Engineering Lead, Embedded Linux
+% File name per Build Pipeline §3 step 1 (WorkExperience-short.tex → WorkExperience.tex). On the current Overleaf skeleton save it as Content/WorkExperience-short.tex.
+% Every number cites a Bullet Bank ID in a trailing % W-xx comment. \textbf{⚠️ ID} = unreconciled value, must be replaced before a final build.
+% Persona C (Amazon SDM form), 1 page. Arguments: (1) owns outcomes end to end, (2) runs delivery and roadmap across organisations, (3) grows people and leads teams.
+% Line budget: the \huge title block and the wide hint column ("Staatsangehörigkeit") are fixed in Setting/, leaving ~80 characters per body line. Every bullet below is written to render on ONE line; the full-length forms stay in the Bullet Bank and the 2-page build.
+
+\section{Summary}
+\cvitem{}{Engineering lead who owns products end to end -- a C++ test platform used by two departments, a cross-product Ethernet server, a SaaS company as founder/CTO -- and has run production across 6 OEMs at 7,000~units/day. Brings embedded Linux depth and people development.}   % W-08 (two departments) · W-06 (cross-product) · O-01 (founder/CTO, non-numeric) · Y-01 (6 OEMs, 7,000/day — both values consistent in the Lead letter; the ⚠️ R11 conflict is only on the project count, not used here) · 41 words
+
+\section{Experience}
+
+\cventry{Jun 2026 -- Oct 2026}{Founder \& CTO}{Ortiq}{Munich, Germany}{}{Built a decision-intelligence SaaS from zero: engine, web app, infra, compliance. \textbf{⚠️O-01}}   % O-01 (Arg 1) — ⚠️ R15: no reconciled metric; replace the placeholder with one metric or delete it; no headcount may be invented. Description form (no itemize) to save a line.
+
+\cventry{Nov 2023 -- Present}{Embedded Linux Software Developer}{Wenglor MEL}{Unterschleißheim}{}{   % F-01 ⚠️ R4: cv title kept; switch to "Firmware \& Embedded Systems Engineer" only once R4 is ticked and LinkedIn matches. "GmbH" and ", Germany" dropped so the header stays on one line (deviation from Style Guide §3.1, logged).
+\begin{itemize}
+  \item Shipped the B60 smart-camera C++ test/production tool, used by 2 departments.   % W-08 (Arg 1) — 2 adopting teams; "designed and shipped … concept to deployment" in the Bullet Bank
+  \item Architected the Ethernet vision server now reused across 3 product families.   % W-06 (Arg 1) — 3 families; nginx/GenICam detail in the Bullet Bank
+  \item Carried \textbf{⚠️ W-05} of ShapeDrive G4 FW 1.3.0; fixed its release-blocking crash.   % W-05 (Arg 1, Deliver Results) — ⚠️ R6: "~80 % of the development load" pending include-decision; "crash / memory-corruption bug" in the Bullet Bank
+  \item Owned the Yocto distro and Jenkins CI/CD; migrated ShapeDrive G4 to kernel 6.1.   % W-09 + W-10 (Arg 2) — SDLC, Linux kernel 6.1
+  \item Introduced read-only rootfs and A/B updates for Cyber Resilience Act readiness.   % W-11 (Arg 2, roadmap) — 2 shipped mechanisms; W-12 (RTE PoCs, netX90) moved to Skills for length
+  \item Mentored engineers and students; coached a struggling teammate over 3 quarters.   % W-17 (Arg 3) — 3 quarters; the process workshop moved to Skills/Leadership; no headcount in the Bullet Bank
+  \item Moved CNN inference onto the A311D NPU via OpenCL: 30~ms to 3~ms per frame.   % W-02 (technical credibility) — 30→3 ms ✅ R3
+\end{itemize}}
+
+\cventry{Jan 2023 -- Sep 2023}{OEM Process Manager}{Yandex, Smart Devices}{Moscow / Shenzhen}{}{
+\begin{itemize}
+  \item Synchronised \textbf{⚠️ Y-01} device projects across 6 Shenzhen OEMs at ~7,000~units/day.   % Y-01 (Arg 2) — 6 OEMs, 7,000/day per colour per Lead letter; project count ⚠️ R11 (9 vs 9+)
+  \item Built one Python toolchain for flashing, SN/MAC/HDCP provisioning and QA/AQL.   % Y-02 (4 workflows) + Y-04 (qualitative) — Arg 2, Highest Standards
+\end{itemize}}
+
+\cventry{Aug 2019 -- Jan 2023}{Embedded Development Lead}{Kazan Sci. Center; Innopolis Univ.}{Russia}{}{SLM control protocol and SDK (Cortex-M, Linux); co-inventor, patent RU 2022610258.}   % K-01 + I-02 — qualitative; two lab roles merged for the 1-page build (Innopolis title "Principal Embedded Engineer" and I-03 omitted — restore on 2-page builds); I-04 (−80 % QA time) omitted: ⚠️ R10
+
+\cventry{2014}{Team Captain, PCB \& Firmware}{R2T robotics team}{Mashhad, Iran}{}{Led the team to the RoboCup 2014 world title, Junior Rescue B, and IranOpen 2014.}   % E-01 (Arg 3, earliest leadership) — "Led" per Lead letter; "Team Captain" title is user-stated (2026-10-29), not yet in the Bullet Bank → add to E-01. ⚠️ R13 "2nd then 1st" claim NOT used.

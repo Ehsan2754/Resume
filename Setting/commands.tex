@@ -26,13 +26,14 @@
 
 \newcommand{\myName}[2]{{\sffamily\fontsize{30}{36}\selectfont #1\\[10pt] #2}}
 
-\newcommand{\myCVtitle}[3]{
+\newcommand{\myCVtitle}[4]{
  \begin{minipage}[b]{0.6\textwidth}
  \myName{#1}{#2}\\[10pt]
-    {\color{MyColor}\huge \textit{Curriculum vitae}}
+    {\color{MyColor}\huge \textit{#3}}
  \end{minipage}
  \hfill
- \fcolorbox{MyColor}{white}{\myPhoto{#3}}
+ \edef\myPhotoPath{#4}%
+ \ifx\myPhotoPath\empty\else\fcolorbox{MyColor}{white}{\myPhoto{\myPhotoPath}}\fi
  
  \vspace{2em}
  
