@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Pandoc and build HTML
         # cosmetic only (pandoc cannot interpret the moderncv/persona macros); never block the Pages deploy on it
@@ -38,14 +38,14 @@ jobs:
           sudo pandoc resume.tex --toc -s -o ./pages/index.html
           
       - name: Setup Pages 
-        uses: actions/configure-pages@v2
+        uses: actions/configure-pages@v5
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: './pages'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
         
         
 
