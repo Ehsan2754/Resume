@@ -1,7 +1,7 @@
 name: Resume build
 
 # One source, one PDF per persona (see README.md). ONE build job (make all), then ONE release with all PDFs attached.
-# TeX Live is a minimal scheme-basic install that setup-texlive-action caches between runs (no apt TeX install).
+# TeX Live is a minimal scheme-basic install cached with actions/cache (no apt TeX install).
 on:
   push:
     branches: [main]
@@ -24,58 +24,67 @@ jobs:
     name: build all personas
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      # XeLaTeX + moderncv (classic) + fontawesome5/academicons icon fonts + ngerman + packages from Setting/packages.tex.
+      # tlmgr resolves dependencies (hyperref helpers, l3*, ...). Changing this list changes the cache key.
+      TL_PACKAGES: >-
+        latexmk xetex fontspec lm lmodern moderncv fontawesome5 academicons
+        babel babel-german hyphen-german datetime fmtcount etoolbox hyperref url microtype
+        xcolor colortbl geometry adjustbox collectbox trimclip ifoddpage varwidth ragged2e
+        anyfontsize graphics graphics-def graphics-cfg tools amsmath xkeyval iftex
+        l3kernel l3packages l3backend changepage fancyhdr arydshln multirow
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install TeX Live (minimal, cached)
-        uses: teatimeguest/setup-texlive-action@v3
-        timeout-minutes: 6
+      # Third-party setup-texlive-action is blocked for this repo ("Repository access blocked"), so: official install-tl
+      # (scheme-basic, no docs/sources) + explicit package list, cached with actions/cache. Cold = install, warm = restore.
+      - name: TeX package-set key
+        id: tlkey
+        run: echo "hash=$(printf '%s' "$TL_PACKAGES" | sha1sum | cut -c1-12)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore TeX Live cache
+        id: tlcache
+        uses: actions/cache@v4
         with:
-          scheme: basic
-          # XeLaTeX + moderncv (classic) + fontawesome5/academicons icon fonts + ngerman + the packages in Setting/packages.tex.
-          # Dependencies (hyperref helpers, l3*, etc.) are resolved by tlmgr.
-          packages: |
-            latexmk
-            xetex
-            fontspec
-            lm
-            lmodern
-            moderncv
-            fontawesome5
-            academicons
-            babel
-            babel-german
-            hyphen-german
-            datetime
-            fmtcount
-            etoolbox
-            hyperref
-            url
-            microtype
-            xcolor
-            colortbl
-            geometry
-            adjustbox
-            collectbox
-            trimclip
-            ifoddpage
-            varwidth
-            ragged2e
-            anyfontsize
-            graphics
-            graphics-def
-            graphics-cfg
-            tools
-            amsmath
-            xkeyval
-            iftex
-            l3kernel
-            l3packages
-            l3backend
-            changepage
-            fancyhdr
-            arydshln
-            multirow
+          path: ~/texlive
+          key: texlive-${{ runner.os }}-2026-${{ steps.tlkey.outputs.hash }}
+
+      - name: Install TeX Live (scheme-basic + explicit packages)
+        if: steps.tlcache.outputs.cache-hit != 'true'
+        timeout-minutes: 6
+        run: |
+          set -euo pipefail
+          # Pin one CTAN mirror so install-tl and tlmgr do not hop between mirrors.
+          REPO="$(curl -fsSL -o /dev/null -w '%{url_effective}' https://mirror.ctan.org/systems/texlive/tlnet/)"
+          echo "mirror: $REPO"
+          mkdir -p "$RUNNER_TEMP/tlinst" && cd "$RUNNER_TEMP/tlinst"
+          curl -fsSL "${REPO}install-tl-unx.tar.gz" | tar xz --strip-components=1
+          cat > texlive.profile <<EOF
+          selected_scheme scheme-basic
+          TEXDIR $HOME/texlive/current
+          TEXMFLOCAL $HOME/texlive/texmf-local
+          TEXMFSYSCONFIG $HOME/texlive/current/texmf-config
+          TEXMFSYSVAR $HOME/texlive/current/texmf-var
+          TEXMFCONFIG $HOME/.texlive/texmf-config
+          TEXMFVAR $HOME/.texlive/texmf-var
+          instopt_adjustpath 0
+          instopt_adjustrepo 0
+          tlpdbopt_autobackup 0
+          tlpdbopt_install_docfiles 0
+          tlpdbopt_install_srcfiles 0
+          tlpdbopt_create_formats 1
+          EOF
+          perl install-tl --profile=texlive.profile --repository "$REPO" --no-interaction
+          TLBIN="$(echo "$HOME"/texlive/current/bin/*)"
+          "$TLBIN/tlmgr" option repository "$REPO"
+          # shellcheck disable=SC2086
+          "$TLBIN/tlmgr" install $TL_PACKAGES
+
+      - name: Put TeX Live on PATH
+        run: |
+          TLBIN="$(echo "$HOME"/texlive/current/bin/*)"
+          echo "$TLBIN" >> "$GITHUB_PATH"
+          "$TLBIN/xelatex" --version | head -1
 
       - name: Install poppler-utils (pdftotext, pdfinfo)
         uses: awalsh128/cache-apt-pkgs-action@v1
