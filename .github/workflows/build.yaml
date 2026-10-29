@@ -113,7 +113,11 @@ jobs:
         timeout-minutes: 5
         run: |
           set -o pipefail
-          make all 2>&1 | tee build.log
+          if ! make all 2>&1 | tee build.log; then
+            # Job logs are not always retrievable; put the interesting lines into an annotation too.
+            echo "::error title=make all failed::$(grep -E '^(!|FAIL|.*[Ee]rror|.*not found|l\.[0-9]+)' build.log | head -n 20 | tr -d '%\r' | paste -sd '|' -)"
+            exit 1
+          fi
           # Mark only the PDFs whose own check printed "WARN: unreconciled" (check output follows its "built <pdf>" line).
           awk '/^built /{f=$2} /^WARN: unreconciled/{if(f!="") print f}' build.log | while read -r f; do
             echo "unreconciled placeholders" > "$f.warn"
