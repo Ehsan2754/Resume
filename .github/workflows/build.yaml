@@ -1,7 +1,7 @@
 name: Resume build
 
 # One source, one PDF per persona (see README.md). ONE build job (make all), then ONE release with all PDFs attached.
-# TeX Live is a minimal scheme-basic install cached with actions/cache (no apt TeX install).
+# TeX Live: minimal scheme-basic + explicit package list, cached with actions/cache (cold ~1.5 min, warm ~1 min; no apt TeX).
 on:
   push:
     branches: [main]
